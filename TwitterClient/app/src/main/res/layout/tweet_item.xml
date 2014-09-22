@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/tweet_item">
+
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="90dp"
+        android:id="@+id/ivProfileView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/User"
+        android:id="@+id/tvUser"
+        android:textColor="@android:color/holo_blue_dark"
+        android:layout_toEndOf="@+id/ivProfileView"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tweetText"
+        android:id="@+id/tvTweetText"
+        android:layout_below="@+id/tvUser"
+        android:layout_toEndOf="@+id/ivProfileView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Time stamp"
+        android:id="@+id/tvTimestamp"
+        android:layout_above="@+id/tvTweetText"
+        android:minWidth="200dp"
+        android:textColor="@android:color/holo_purple"
+        android:layout_toEndOf="@+id/tvUser"
+        android:layout_alignParentTop="true" />
+</RelativeLayout>
