@@ -21,6 +21,7 @@ public class Tweet {
     private User user;
     private Long id;
     private String timestamp;
+    public static Long max_id = 1L;
 
     public Long getId() {
         return id;
@@ -63,20 +64,27 @@ public class Tweet {
     public static ArrayList<Tweet> fromJSONArray (JSONArray jsonArray)
     {
         ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
+        Tweet tweet = null;
         for (int i=0; i <jsonArray.length();i++)
         {
+
             JSONObject obj = null;
             try {
                 obj = jsonArray.getJSONObject(i);
-                Tweet tweet = null;
+                tweet = null;
                 try {
                     tweet = fromJSON(obj);
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 tweetList.add(tweet);
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+            if ( tweet != null)
+            {
+                Tweet.max_id = tweet.id;
             }
         }
         return  tweetList;

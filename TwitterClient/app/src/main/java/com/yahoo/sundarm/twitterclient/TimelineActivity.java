@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.yahoo.sundarm.twitterclient.adapter.EndlessScrollListener;
 import com.yahoo.sundarm.twitterclient.models.Tweet;
 
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ public class TimelineActivity extends Activity {
     private ArrayList<Tweet> tweetsList;
     private ArrayAdapter<Tweet> adapter ;
     private ListView lvTimeLine ;
+    public Boolean newTweetAdded = false;
 
 
     @Override
@@ -32,12 +34,22 @@ public class TimelineActivity extends Activity {
         setContentView(R.layout.activity_timeline);
         TwitterRestClient client = TwitterClientApp.getRestClient();
         tweetsList = new ArrayList<Tweet>();
-        populateTimeLine();
+        populateTimeLine(false);
         lvTimeLine = (ListView)findViewById(R.id.lvTimeline);
         adapter = new TwitterArrayAdapter(this, tweetsList );
 
         lvTimeLine.setAdapter(adapter);
         Log.d("debug", String.valueOf(tweetsList.size()) + " -------is the size ");
+
+        lvTimeLine.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to your AdapterView
+                populateTimeLine(false);
+                // or customLoadMoreDataFromApi(totalItemsCount);
+            }
+        });
 
 
     }
@@ -63,10 +75,17 @@ public class TimelineActivity extends Activity {
     }
 
 
-    public void populateTimeLine()
+    public void populateTimeLine(Boolean newTweetAdded)
     {
         TwitterRestClient client = TwitterClientApp.getRestClient();
+        if (newTweetAdded) {
+            tweetsList.clear();
+            adapter.notifyDataSetChanged();
+            Tweet.max_id = 1L;
+
+        }
         client.getTimeLine(new JsonHttpResponseHandler(){
+
 
             @Override
             public void onSuccess(JSONArray jsonArray) {
@@ -99,8 +118,9 @@ public class TimelineActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == 200) {
-            Log.d("debug", "In timeline Activity========");
-            populateTimeLine();
+//            Log.d("debug", "In timeline Activity========");
+//            populateTimeLine(true);
+
         }
     }
 }

@@ -9,6 +9,7 @@ import android.content.Context;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.yahoo.sundarm.twitterclient.models.Tweet;
 
 /*
  * 
@@ -40,6 +41,10 @@ public class TwitterRestClient extends OAuthBaseClient {
         String apiUrl = getApiUrl("statuses/home_timeline.json");
         RequestParams params = new RequestParams();
         params.put("since_id", "10");
+        params.put("count", "5");
+        if (Tweet.max_id != 1L) {
+            params.put("max_id", Tweet.max_id.toString());
+        }
         client.get(apiUrl, params, handler);
 
     }
