@@ -16,6 +16,8 @@ import com.yahoo.sundarm.twitterclient.models.Tweet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+
 
 public class ComposeActivity extends Activity {
 
@@ -59,7 +61,15 @@ public class ComposeActivity extends Activity {
             @Override
             public void onSuccess(JSONObject json) {
                 Log.d("debug", "Post succeeded");
+                Log.d("debug", "---------response is " + json.toString());
+                Tweet newTweet = null;
+                try {
+                    newTweet = Tweet.fromJSON(json);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 Intent intent = new Intent();
+                intent.putExtra("tweet",newTweet);
                 setResult(RESULT_OK, intent);
                 finish();
             }

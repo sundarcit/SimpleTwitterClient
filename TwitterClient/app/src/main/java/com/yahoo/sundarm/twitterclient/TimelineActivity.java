@@ -51,7 +51,6 @@ public class TimelineActivity extends Activity {
             }
         });
 
-
     }
 
 
@@ -118,8 +117,9 @@ public class TimelineActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // REQUEST_CODE is defined above
         if (resultCode == RESULT_OK && requestCode == 200) {
-//            Log.d("debug", "In timeline Activity========");
-//            populateTimeLine(true);
+           Tweet tweet = (Tweet)data.getSerializableExtra("tweet");
+            tweetsList.add(0, tweet);
+            adapter.notifyDataSetChanged();
 
         }
     }
